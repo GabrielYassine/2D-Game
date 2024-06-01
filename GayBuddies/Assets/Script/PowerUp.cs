@@ -13,6 +13,9 @@ public class PowerUp : ScriptableObject
     public Sprite powerUpImage;
 
     public CardTier cardTier;
+
+    public Sprite cardTierImage;
+
 }
 
 public enum CardTier

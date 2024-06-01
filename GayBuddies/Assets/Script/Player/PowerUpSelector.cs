@@ -24,6 +24,7 @@ public class PowerUpSelector : MonoBehaviour
             powerUpCard.transform.Find("PowerUpName").GetComponent<Text>().text = powerUp.powerUpName;
             powerUpCard.transform.Find("PowerUpDescription").GetComponent<Text>().text = powerUp.powerUpDescription;
             powerUpCard.transform.Find("PowerUpImage").GetComponent<Image>().sprite = powerUp.powerUpImage;
+            powerUpCard.transform.Find("cardTierImage").GetComponent<Image>().sprite = powerUp.cardTierImage;
         }
     }
 
