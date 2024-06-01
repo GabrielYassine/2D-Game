@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5920722156186902738}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.49999997, y: 0.189, z: 0}
+  m_LocalPosition: {x: 0.794, y: 0.189, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,9 +45,10 @@ GameObject:
   - component: {fileID: 8697931341195015750}
   - component: {fileID: 2338313123590188744}
   - component: {fileID: 1589198875228400385}
+  - component: {fileID: 5182975206885799884}
   m_Layer: 6
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,6 +204,23 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5699727547236206127, guid: 711d184a85fa92142a7a59659f14bd7b, type: 3}
   bulletSpawn: {fileID: 8936792929543756083}
   bulletSpeed: 15
+  fireRate: 1
+  bulletRange: 10
+  playerDamage: 10
+  bulletType: 0
+--- !u!114 &5182975206885799884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5965565792478779439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e51ff9f89599c4f89f02aa80a51133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &6911132354306126759
 GameObject:
   m_ObjectHideFlags: 0
