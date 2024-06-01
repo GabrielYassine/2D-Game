@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
 {
-    public List<PowerUp> bronzePowerUps;
-    public List<PowerUp> silverPowerUps;
-    public List<PowerUp> goldPowerUps;
-    public List<PowerUp> diamondPowerUps;
-
-    public Sprite TempImage;
-    private bool listsGenerated = false;
-    private int selectedCardsAmount = 3;
+    private List<PowerUp> bronzePowerUps = new List<PowerUp>();
+    private List<PowerUp> silverPowerUps = new List<PowerUp>();
+    private List<PowerUp> goldPowerUps = new List<PowerUp>();
+    private List<PowerUp> diamondPowerUps = new List<PowerUp>();
+    public List<GameObject> playerList = new List<GameObject>();
     public List<PowerUpSelector> players;
+    public Sprite TempImage;
+    private bool gameInitialized = false;
+    private int selectedCardsAmount = 3;
+    public GameObject powerUpPrefab;
 
     private void Awake()
     {
-        if (!listsGenerated)
+        if (!gameInitialized)
         {
             GeneratePowerUpLists();
-            listsGenerated = true;
+            gameInitialized = true;
         }
     }
 

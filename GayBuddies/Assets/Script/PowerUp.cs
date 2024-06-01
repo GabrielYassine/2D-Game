@@ -11,11 +11,28 @@ public class PowerUp : ScriptableObject
     public string powerUpName;
     public string powerUpDescription;
     public Sprite powerUpImage;
-
     public CardTier cardTier;
-
     public Sprite cardTierImage;
 
+    public void SetCardTierImage() {
+        string folderPath = "Sprites/PowerUp/";
+
+        switch (cardTier)
+        {
+            case CardTier.Bronze:
+                cardTierImage = Resources.Load<Sprite>(folderPath + "BronzeCard");
+                break;
+            case CardTier.Silver:
+                cardTierImage = Resources.Load<Sprite>(folderPath + "SilverCard");
+                break;
+            case CardTier.Gold:
+                cardTierImage = Resources.Load<Sprite>(folderPath + "GoldCard");
+                break;
+            case CardTier.Diamond:
+                cardTierImage = Resources.Load<Sprite>(folderPath + "DiamondCard");
+                break;
+        }
+    }
 }
 
 public enum CardTier
