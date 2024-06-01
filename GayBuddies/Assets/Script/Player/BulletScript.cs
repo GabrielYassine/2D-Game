@@ -9,13 +9,16 @@ public class BulletScript : MonoBehaviour
         this.damage = damage;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             HealthScript enemy = collision.gameObject.GetComponent<HealthScript>();
-            enemy.TakeDamage(damage);
-            Destroy(this.gameObject);
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+                Destroy(this.gameObject);
+            }
         }
     }
 }
