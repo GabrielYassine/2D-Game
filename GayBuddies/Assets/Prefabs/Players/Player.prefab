@@ -44,10 +44,10 @@ GameObject:
   - component: {fileID: 6835285929440078106}
   - component: {fileID: 8697931341195015750}
   - component: {fileID: 2338313123590188744}
-  - component: {fileID: 1589198875228400385}
   - component: {fileID: 5182975206885799884}
+  - component: {fileID: 3140219614383472868}
   m_Layer: 6
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 5965565792478779439}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.79122424, y: -0.84243935, z: 0.03449755}
+  m_LocalPosition: {x: 1.3736978, y: 1.3243709, z: 0.010264657}
   m_LocalScale: {x: 0.8, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -189,25 +189,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1589198875228400385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5965565792478779439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a9346bc616ee134fa0a126a5ca5879e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5699727547236206127, guid: 711d184a85fa92142a7a59659f14bd7b, type: 3}
-  bulletSpawn: {fileID: 8936792929543756083}
-  bulletSpeed: 15
-  fireRate: 1
-  bulletRange: 10
-  playerDamage: 10
-  bulletType: 0
 --- !u!114 &5182975206885799884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +202,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &3140219614383472868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5965565792478779439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d214d51a11a91154cb5897fdc03cb2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawn: {fileID: 8936792929543756083}
 --- !u!1 &6911132354306126759
 GameObject:
   m_ObjectHideFlags: 0
