@@ -10,11 +10,9 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
-	[SerializeField] private Transform m_SideCheckLeft;     				    // A position marking where to check if the player can jump from the left side.
-[SerializeField] private Transform m_SideCheckRight;                            // A position marking where to check if the player can jump from the right side.
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
 
-	const float k_GroundedRadius = .4f; // Radius of the overlap circle to determine if grounded
+	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	public bool m_Grounded;            // Whether or not the player is grounded.
 	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
@@ -48,45 +46,20 @@ public class CharacterController2D : MonoBehaviour
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
 
-		// Check ground collision at the main ground check position
-		Collider2D[] mainGroundColliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < mainGroundColliders.Length; i++)
+		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
+		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+		for (int i = 0; i < colliders.Length; i++)
 		{
-			if (mainGroundColliders[i].gameObject != gameObject)
+			if (colliders[i].gameObject != gameObject)
 			{
 				m_Grounded = true;
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
-				break;  // Exit the loop once grounded on top is detected
-			}
-		}
-
-		// Check ground collision at the left side check position
-		Collider2D[] leftSideColliders = Physics2D.OverlapCircleAll(m_SideCheckLeft.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < leftSideColliders.Length; i++)
-		{
-			if (leftSideColliders[i].gameObject != gameObject)
-			{
-				m_Grounded = true;
-				if (!wasGrounded)
-					OnLandEvent.Invoke();
-				break;  // Exit the loop once grounded on the left side is detected
-			}
-		}
-
-		// Check ground collision at the right side check position
-		Collider2D[] rightSideColliders = Physics2D.OverlapCircleAll(m_SideCheckRight.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < rightSideColliders.Length; i++)
-		{
-			if (rightSideColliders[i].gameObject != gameObject)
-			{
-				m_Grounded = true;
-				if (!wasGrounded)
-					OnLandEvent.Invoke();
-				break;  // Exit the loop once grounded on the right side is detected
 			}
 		}
 	}
+
 
 	public void Move(float move, bool crouch, bool jump)
 	{
