@@ -5,24 +5,15 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour
 {
     public int selectedCardsAmount = 3;
-    private Dictionary<int, List<PowerUp>> playerPowerUps = new Dictionary<int, List<PowerUp>>();
-    public Transform[] playerCardDisplayParent;
+    private List<PowerUp> playerPowerUps = new List<PowerUp>();
+    public Transform playerCardDisplayParent;
     public GameObject cardPrefab;
-    private Dictionary<int, List<GameObject>> displayedCards = new Dictionary<int, List<GameObject>>();
+    private List<GameObject> displayedCards = new List<GameObject>();
 
     void Start()
     {
-        foreach (Transform parent in playerCardDisplayParent)
-        {
-            int playerIndex = parent.GetSiblingIndex();
-
-            if (!playerPowerUps.ContainsKey(playerIndex))
-            {
-                playerPowerUps[playerIndex] = GenerateRandomCards();
-            }
-
-            DisplayPlayerCards(playerIndex);
-        }
+        playerPowerUps = GenerateRandomCards();
+        DisplayPlayerCards();
     }
 
     private List<PowerUp> GenerateRandomCards()
@@ -30,8 +21,7 @@ public class PowerUpManager : MonoBehaviour
         CardTier randomTier = GenerateRandomCardTier();
         string directory = "ScriptableObjects/PowerUps/" + randomTier.ToString();
         List<PowerUp> powerUps = new List<PowerUp>(Resources.LoadAll<PowerUp>(directory));
-        Debug.Log("Loaded " + powerUps.Count + " powerUps from: " + directory);
-        
+
         List<PowerUp> selectedPowerUps = new List<PowerUp>();
 
         while (selectedPowerUps.Count < selectedCardsAmount)
@@ -45,43 +35,47 @@ public class PowerUpManager : MonoBehaviour
 
         return selectedPowerUps;
     }
-    private void DisplayPlayerCards(int playerIndex)
+
+    private void DisplayPlayerCards()
     {
-        Transform parent = playerCardDisplayParent[playerIndex];
-
-        if (!displayedCards.ContainsKey(playerIndex))
-        {
-            displayedCards[playerIndex] = new List<GameObject>();
-        }
-
-        foreach (GameObject card in displayedCards[playerIndex])
+        foreach (GameObject card in displayedCards)
         {
             Destroy(card);
         }
-        displayedCards[playerIndex].Clear();
+        displayedCards.Clear();
 
-        int cardWidth = 100; // Set this to the width of your card
-        int spacing = 300; // Set this to the desired spacing between cards
+        int cardWidth = 100;
+        int spacing = 300;
 
         int i = 0;
-        int count = playerPowerUps[playerIndex].Count;
-        foreach (PowerUp powerUp in playerPowerUps[playerIndex])
+        int count = playerPowerUps.Count;
+        foreach (PowerUp powerUp in playerPowerUps)
         {
-            GameObject card = Instantiate(cardPrefab, parent);
+            GameObject card = Instantiate(cardPrefab, playerCardDisplayParent);
             card.GetComponent<CardDisplay>().DisplayCard(powerUp);
 
-            // Set the position of the card
             RectTransform rectTransform = card.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new Vector2((i - count / 2) * (cardWidth + spacing), 0);
 
-            displayedCards[playerIndex].Add(card);
+            displayedCards.Add(card);
 
             i++;
         }
+    }
+
+    public void ClearDisplayedCards()
+    {
+        foreach (GameObject card in displayedCards)
+        {
+            Destroy(card);
+        }
+        displayedCards.Clear();
     }
 
     private CardTier GenerateRandomCardTier()
     {
         return (CardTier)Random.Range(0, 4);
     }
+
+
 }
