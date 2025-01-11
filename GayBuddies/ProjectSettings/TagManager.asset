@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
+  - CardUI
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: CardUI
+    uniqueID: 468581489
     locked: 0
