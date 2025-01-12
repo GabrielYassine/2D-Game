@@ -6,7 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Movement.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/SteamIntegration/Bootstrap.unity
+    guid: 067fb9e9ab56331428b0b8da90703e31
+  - enabled: 1
+    path: Assets/SteamIntegration/MenuSceneSteam.unity
+    guid: c741d90b1b768eb4ca2a901617052256
+  - enabled: 1
+    path: Assets/Scenes/CardFeature.unity
+    guid: 0841a293ad97fa34da7a18bf40a1f661
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
