@@ -66,4 +66,10 @@ public class MainMenuManager : MonoBehaviour
         OpenMainMenu();
     }
 
+    public void StartGame()
+    {
+        string[] scenesToClose = new string[] { "MenuSceneSteam" };
+        BootstrapNetworkManager.ChangeNetworkScene("CardFeature", scenesToClose); // Change this to your game scene, right now thats the newely created scene
+    }
+
 }
