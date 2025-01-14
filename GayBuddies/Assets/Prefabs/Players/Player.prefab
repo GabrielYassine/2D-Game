@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 3140219614383472868}
   - component: {fileID: 2880040920291590386}
   - component: {fileID: -1160036599630752721}
+  - component: {fileID: 4439110807894595802}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -179,6 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800e4c1a9b0f343429a473c13c862b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2880040920291590386}
+  _networkObjectCache: {fileID: 0}
   runSpeed: 40
   controller: {fileID: 1183677346421754948}
   rb: {fileID: 2338313123590188744}
@@ -267,6 +271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e51ff9f89599c4f89f02aa80a51133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2880040920291590386}
+  _networkObjectCache: {fileID: 0}
   health: 100
 --- !u!114 &3140219614383472868
 MonoBehaviour:
@@ -348,6 +355,49 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 2880040920291590386}
   _networkObjectCache: {fileID: 2880040920291590386}
+--- !u!114 &4439110807894595802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5965565792478779439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2880040920291590386}
+  _networkObjectCache: {fileID: 0}
+  _componentConfiguration: 3
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _interpolation: 2
+  _extrapolation: 0
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 1
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0
 --- !u!1 &6911132354306126759
 GameObject:
   m_ObjectHideFlags: 0
