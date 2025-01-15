@@ -37,24 +37,20 @@ public class PlayerMovement : NetworkBehaviour {
     }
 
     void FixedUpdate() {
-        if (!IsOwner) return; // Only allow the local player to control their character
-
+        if (!IsOwner) return;
         Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         jump = false;
     }
 
-    [ServerRpc]
     private void Move(float move, bool crouch, bool jump) {
         controller.Move(move, crouch, jump);
-        UpdateClientMove(move, crouch, jump);
+        //UpdateClientMove(move, crouch, jump);
     }
 
-    [ObserversRpc]
-    private void UpdateClientMove(float move, bool crouch, bool jump) {
-        if (IsOwner) { // Skip updating the owner's client (no need to update the owner's client since they are the one controlling the character)
-            return;
-        }
-
-        controller.Move(move, crouch, jump);
-    }
+    // private void UpdateClientMove(float move, bool crouch, bool jump) {
+    //     if (IsOwner) {
+    //         return;
+    //     }
+    //     controller.Move(move, crouch, jump);
+    // }
 }

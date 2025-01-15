@@ -61,18 +61,8 @@ public class CharacterController2D : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
     public void Move(float move, bool crouch, bool jump)
     {
-        PerformMove(move, crouch, jump);
-        UpdateClientMove(move, crouch, jump);
-    }
-
-    [ObserversRpc]
-    private void UpdateClientMove(float move, bool crouch, bool jump)
-    {
-        if (IsOwner) return; // Skip updating the owner's client
-
         PerformMove(move, crouch, jump);
     }
 
@@ -136,7 +126,7 @@ public class CharacterController2D : NetworkBehaviour
             }
         }
 
-		// Jump
+		// Jump if the player is grounded and the jump button is pressed
         if (m_Grounded && jump)
         {
             m_Grounded = false;

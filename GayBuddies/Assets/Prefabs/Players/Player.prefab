@@ -151,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c484cbf847463a44b9733bd94079ad0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2880040920291590386}
+  _networkObjectCache: {fileID: 0}
   m_JumpForce: 1000
   m_CrouchSpeed: 0.4
   m_MovementSmoothing: 0.05
