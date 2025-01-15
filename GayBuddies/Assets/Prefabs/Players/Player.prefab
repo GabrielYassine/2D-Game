@@ -151,9 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c484cbf847463a44b9733bd94079ad0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 2880040920291590386}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2880040920291590386}
   m_JumpForce: 1000
   m_CrouchSpeed: 0.4
   m_MovementSmoothing: 0.05
@@ -183,9 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800e4c1a9b0f343429a473c13c862b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2880040920291590386}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2880040920291590386}
   runSpeed: 40
   controller: {fileID: 1183677346421754948}
   rb: {fileID: 2338313123590188744}
@@ -274,9 +274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e51ff9f89599c4f89f02aa80a51133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2880040920291590386}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2880040920291590386}
   health: 100
 --- !u!114 &3140219614383472868
 MonoBehaviour:
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5965565792478779439}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d214d51a11a91154cb5897fdc03cb2a0, type: 3}
   m_Name: 
@@ -308,7 +308,11 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
+  - {fileID: 1183677346421754948}
+  - {fileID: 6835285929440078106}
+  - {fileID: 5182975206885799884}
   - {fileID: -1160036599630752721}
+  - {fileID: 4439110807894595802}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -355,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2880040920291590386}
   _networkObjectCache: {fileID: 2880040920291590386}
 --- !u!114 &4439110807894595802
@@ -370,9 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2880040920291590386}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2880040920291590386}
   _componentConfiguration: 3
   _synchronizeParent: 0
   _packing:
