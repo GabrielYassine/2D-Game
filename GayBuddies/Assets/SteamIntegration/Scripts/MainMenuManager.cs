@@ -4,14 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Steamworks;
+
 public class MainMenuManager : MonoBehaviour
 {
     private static MainMenuManager instance;
 
     [SerializeField] private GameObject menuScreen, lobbyScreen;
     [SerializeField] private TMP_InputField lobbyCodeInput;
-    [SerializeField] private TextMeshProUGUI lobbyTitleText, LobbyIDText;
-
+    [SerializeField] private TextMeshProUGUI lobbyTitleText, LobbyIDText, PlayerCountText;
     [SerializeField] private Button startGameButton;
 
     private void Awake() {
@@ -45,8 +45,8 @@ public class MainMenuManager : MonoBehaviour
         instance.LobbyIDText.text = "Lobby ID: " + BootstrapManager.CurrentLobbyID;
         instance.startGameButton.gameObject.SetActive(isHost);
         instance.OpenLobby();
+        instance.UpdatePlayerCount();
     }
-
 
     void CloseAllScreens()
     {
@@ -58,12 +58,14 @@ public class MainMenuManager : MonoBehaviour
     {
         CSteamID steamID = new CSteamID(ulong.Parse(lobbyCodeInput.text));
         BootstrapManager.JoinByID(steamID);
+        UpdatePlayerCount();
     }
 
     public void LeaveLobby()
     {
         BootstrapManager.LeaveLobby();
         OpenMainMenu();
+        UpdatePlayerCount();
     }
 
     public void StartGame()
@@ -72,4 +74,9 @@ public class MainMenuManager : MonoBehaviour
         BootstrapNetworkManager.ChangeNetworkScene("CardFeature", scenesToClose); // Change this to your game scene, right now thats the newely created scene
     }
 
+    public void UpdatePlayerCount()
+    {
+        int playerCount = BootstrapManager.GetPlayerCount();
+        PlayerCountText.text = playerCount + "/4 Players";
+    }
 }

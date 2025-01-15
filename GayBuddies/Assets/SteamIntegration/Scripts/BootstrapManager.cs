@@ -42,7 +42,6 @@ public class BootstrapManager : MonoBehaviour
 
     private void OnLobbyCreated(LobbyCreated_t pCallback)
     {
-        //Debug.Log("Lobby creation: " + pCallback.m_eResult.ToString());
         if (pCallback.m_eResult != EResult.k_EResultOK)
         {
             return;
@@ -91,4 +90,10 @@ public class BootstrapManager : MonoBehaviour
             instance._fishySteamworks.StopConnection(true);
         }
     }
+
+    public static int GetPlayerCount()
+    {
+        return SteamMatchmaking.GetNumLobbyMembers(new CSteamID(CurrentLobbyID));
+    }
+    
 }

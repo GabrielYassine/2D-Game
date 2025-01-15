@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 
 namespace FishNet.Component.Spawning
 {
-
     /// <summary>
     /// Spawns a player object for clients when they connect.
     /// Must be placed on or beneath the NetworkManager object.
