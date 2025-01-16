@@ -51,18 +51,24 @@ namespace FishNet.Component.Spawning
 
         #region Private.
         /// <summary>
-        /// NetworkManager on this object or within this objects parents.
+        /// NetworkManager on this object or within this object's parents.
         /// </summary>
         private NetworkManager _networkManager;
+
         /// <summary>
         /// Next spawns to use.
         /// </summary>
         private int _nextSpawn;
 
         /// <summary>
-        /// Index for selecting player prefabs.
+        /// Tracks which prefab is currently assigned to each player connection.
         /// </summary>
-        private int _nextPlayerPrefabIndex;
+        private Dictionary<NetworkConnection, NetworkObject> _connectedPlayerPrefabs = new Dictionary<NetworkConnection, NetworkObject>();
+
+        /// <summary>
+        /// Tracks which prefabs are currently in use.
+        /// </summary>
+        private HashSet<NetworkObject> _usedPrefabs = new HashSet<NetworkObject>();
         #endregion
 
         private void Start()
@@ -89,7 +95,25 @@ namespace FishNet.Component.Spawning
             }
 
             _networkManager.SceneManager.OnClientLoadedStartScenes += SceneManager_OnClientLoadedStartScenes;
+            _networkManager.ServerManager.OnRemoteConnectionState += ServerManager_OnRemoteConnectionState;
         }
+
+        /// <summary>
+        /// Called when a remote client's connection state changes.
+        /// </summary>
+        private void ServerManager_OnRemoteConnectionState(NetworkConnection conn, FishNet.Transporting.RemoteConnectionStateArgs args)
+        {
+            if (args.ConnectionState == FishNet.Transporting.RemoteConnectionState.Stopped)
+            {
+                if (_connectedPlayerPrefabs.TryGetValue(conn, out NetworkObject prefab))
+                {
+                    // Remove the prefab from the used set and mapping when the player disconnects.
+                    _usedPrefabs.Remove(prefab);
+                    _connectedPlayerPrefabs.Remove(conn);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Called when a client loads initial scenes after connecting.
@@ -105,8 +129,13 @@ namespace FishNet.Component.Spawning
                 return;
             }
 
-            // Select a prefab to spawn.
-            NetworkObject selectedPrefab = GetNextPlayerPrefab();
+            // Select a prefab to spawn that is not already in use.
+            NetworkObject selectedPrefab = GetNextAvailablePlayerPrefab();
+            if (selectedPrefab == null)
+            {
+                NetworkManagerExtensions.LogWarning($"No available player prefabs to spawn for connection {conn.ClientId}.");
+                return;
+            }
 
             Vector3 position;
             Quaternion rotation;
@@ -114,6 +143,10 @@ namespace FishNet.Component.Spawning
 
             NetworkObject nob = _networkManager.GetPooledInstantiated(selectedPrefab, position, rotation, true);
             _networkManager.ServerManager.Spawn(nob, conn);
+
+            // Track prefab usage for this player.
+            _connectedPlayerPrefabs[conn] = selectedPrefab;
+            _usedPrefabs.Add(selectedPrefab);
 
             // If there are no global scenes.
             if (_addToDefaultScene)
@@ -123,14 +156,17 @@ namespace FishNet.Component.Spawning
         }
 
         /// <summary>
-        /// Gets the next player prefab in the list.
+        /// Gets the next available player prefab that is not in use.
         /// </summary>
         /// <returns></returns>
-        private NetworkObject GetNextPlayerPrefab()
+        private NetworkObject GetNextAvailablePlayerPrefab()
         {
-            NetworkObject selectedPrefab = _playerPrefabs[_nextPlayerPrefabIndex];
-            _nextPlayerPrefabIndex = (_nextPlayerPrefabIndex + 1) % _playerPrefabs.Count;
-            return selectedPrefab;
+            foreach (var prefab in _playerPrefabs)
+            {
+                if (!_usedPrefabs.Contains(prefab))
+                    return prefab;
+            }
+            return null; // No available prefab.
         }
 
         /// <summary>
