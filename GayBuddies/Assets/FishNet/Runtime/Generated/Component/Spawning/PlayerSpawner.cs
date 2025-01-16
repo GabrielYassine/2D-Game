@@ -2,8 +2,8 @@
 using FishNet.Managing;
 using FishNet.Object;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace FishNet.Component.Spawning
 {
@@ -23,22 +23,25 @@ namespace FishNet.Component.Spawning
 
         #region Serialized.
         /// <summary>
-        /// Prefab to spawn for the player.
+        /// List of prefabs to spawn for the player.
         /// </summary>
-        [Tooltip("Prefab to spawn for the player.")]
+        [Tooltip("List of prefabs to spawn for the player.")]
         [SerializeField]
-        private NetworkObject _playerPrefab;
+        private List<NetworkObject> _playerPrefabs = new List<NetworkObject>();
+
         /// <summary>
-        /// Sets the PlayerPrefab to use.
+        /// Sets the PlayerPrefabs to use.
         /// </summary>
-        /// <param name="nob"></param>
-        public void SetPlayerPrefab(NetworkObject nob) => _playerPrefab = nob;
+        /// <param name="nobs"></param>
+        public void SetPlayerPrefabs(List<NetworkObject> nobs) => _playerPrefabs = nobs;
+
         /// <summary>
         /// True to add player to the active scene when no global scenes are specified through the SceneManager.
         /// </summary>
         [Tooltip("True to add player to the active scene when no global scenes are specified through the SceneManager.")]
         [SerializeField]
         private bool _addToDefaultScene = true;
+
         /// <summary>
         /// Areas in which players may spawn.
         /// </summary>
@@ -55,6 +58,11 @@ namespace FishNet.Component.Spawning
         /// Next spawns to use.
         /// </summary>
         private int _nextSpawn;
+
+        /// <summary>
+        /// Index for selecting player prefabs.
+        /// </summary>
+        private int _nextPlayerPrefabIndex;
         #endregion
 
         private void Start()
@@ -67,7 +75,6 @@ namespace FishNet.Component.Spawning
             if (_networkManager != null)
                 _networkManager.SceneManager.OnClientLoadedStartScenes -= SceneManager_OnClientLoadedStartScenes;
         }
- 
 
         /// <summary>
         /// Initializes this script for use.
@@ -91,26 +98,40 @@ namespace FishNet.Component.Spawning
         {
             if (!asServer)
                 return;
-            if (_playerPrefab == null)
+
+            if (_playerPrefabs == null || _playerPrefabs.Count == 0)
             {
-                NetworkManagerExtensions.LogWarning($"Player prefab is empty and cannot be spawned for connection {conn.ClientId}.");
+                NetworkManagerExtensions.LogWarning($"Player prefabs list is empty and cannot spawn a player for connection {conn.ClientId}.");
                 return;
             }
 
+            // Select a prefab to spawn.
+            NetworkObject selectedPrefab = GetNextPlayerPrefab();
+
             Vector3 position;
             Quaternion rotation;
-            SetSpawn(_playerPrefab.transform, out position, out rotation);
+            SetSpawn(selectedPrefab.transform, out position, out rotation);
 
-            NetworkObject nob = _networkManager.GetPooledInstantiated(_playerPrefab, position, rotation, true);
+            NetworkObject nob = _networkManager.GetPooledInstantiated(selectedPrefab, position, rotation, true);
             _networkManager.ServerManager.Spawn(nob, conn);
 
-            //If there are no global scenes 
+            // If there are no global scenes.
             if (_addToDefaultScene)
                 _networkManager.SceneManager.AddOwnerToDefaultScene(nob);
 
             OnSpawned?.Invoke(nob);
         }
 
+        /// <summary>
+        /// Gets the next player prefab in the list.
+        /// </summary>
+        /// <returns></returns>
+        private NetworkObject GetNextPlayerPrefab()
+        {
+            NetworkObject selectedPrefab = _playerPrefabs[_nextPlayerPrefabIndex];
+            _nextPlayerPrefabIndex = (_nextPlayerPrefabIndex + 1) % _playerPrefabs.Count;
+            return selectedPrefab;
+        }
 
         /// <summary>
         /// Sets a spawn position and rotation.
@@ -119,7 +140,7 @@ namespace FishNet.Component.Spawning
         /// <param name="rot"></param>
         private void SetSpawn(Transform prefab, out Vector3 pos, out Quaternion rot)
         {
-            //No spawns specified.
+            // No spawns specified.
             if (Spawns.Length == 0)
             {
                 SetSpawnUsingPrefab(prefab, out pos, out rot);
@@ -137,7 +158,7 @@ namespace FishNet.Component.Spawning
                 rot = result.rotation;
             }
 
-            //Increase next spawn and reset if needed.
+            // Increase next spawn and reset if needed.
             _nextSpawn++;
             if (_nextSpawn >= Spawns.Length)
                 _nextSpawn = 0;
@@ -154,8 +175,5 @@ namespace FishNet.Component.Spawning
             pos = prefab.position;
             rot = prefab.rotation;
         }
-
     }
-
-
 }
